@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis 😊</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .upload-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .form-control-file {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px dashed #667eea;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-control-file:hover {
+            border-color: #764ba2;
+            transform: scale(1.02);
+        }
+
+        .btn-analyze {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-analyze:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+            animation: pulse 1s infinite;
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease;
+            color: white;
+        }
+
+        .sentiment-emoji {
+            font-size: 5rem;
+            text-align: center;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
+        }
+
+        .stats-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px 0;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar-animated {
+            animation: progress 1.5s ease;
+        }
+
+        @keyframes progress {
+            from { width: 0%; }
+        }
+
+        .info-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .emoji-float {
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-card">
+            <h1>📊 Sentiment Analysis Dashboard</h1>
+            <p class="subtitle">Analyze product reviews with AI-powered sentiment detection 🤖✨</p>
+            
+            <ul class="nav nav-pills" style="justify-content: center; margin-bottom: 30px;">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/" style="border-radius: 50px; padding: 12px 30px; margin: 0 10px; font-weight: bold;">📊 Single Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/compare" style="border-radius: 50px; padding: 12px 30px; margin: 0 10px; font-weight: bold; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">🆚 Compare Products</a>
+                </li>
+            </ul>
+            
+            <div class="upload-section">
+                <div class="info-badge">
+                    <span class="emoji-float">📁</span> Upload a CSV file with <strong>"review_title"</strong> column
+                </div>
+                
+                <form method="POST" action="{{ url_for('analyze_sentiment') }}" enctype="multipart/form-data" id="uploadForm">
+                    <div class="form-group">
+                        <label for="file" style="font-size: 1.1rem; font-weight: bold;">
+                            <span class="emoji-float">📂</span> Choose Your CSV File:
+                        </label>
+                        <input type="file" class="form-control-file" id="file" name="file" accept=".csv" required>
+                        <small style="display: block; margin-top: 10px; opacity: 0.9;">
+                            Supported format: CSV with review_title column
+                        </small>
+                    </div>
+                    <button type="submit" class="btn-analyze">
+                        🚀 Analyze Sentiments Now!
+                    </button>
+                </form>
+            </div>
+
+            {% if sentiment is defined %}
+                <div class="result-box">
+                    <h2 style="text-align: center; margin-bottom: 30px;">
+                        🎯 Analysis Results
+                    </h2>
+                    
+                    {% if 'POSITIVE' in sentiment %}
+                        <div class="sentiment-emoji">😊 🎉 👍</div>
+                        <h3 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">
+                            {{ sentiment }}
+                        </h3>
+                    {% elif 'NEGATIVE' in sentiment %}
+                        <div class="sentiment-emoji">😔 👎 😞</div>
+                        <h3 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">
+                            {{ sentiment }}
+                        </h3>
+                    {% else %}
+                        <div class="sentiment-emoji">🤔 ⚖️ 😐</div>
+                        <h3 style="text-align: center; font-size: 2rem; margin-bottom: 30px;">
+                            {{ sentiment }}
+                        </h3>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 3rem;">😊</div>
+                                    <div class="stat-number">{{ positive }}</div>
+                                    <div class="stat-label">Positive Reviews</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 3rem;">😔</div>
+                                    <div class="stat-number">{{ negative }}</div>
+                                    <div class="stat-label">Negative Reviews</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stats-card">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 3rem;">📊</div>
+                                    <div class="stat-number">{{ positive + negative }}</div>
+                                    <div class="stat-label">Total Analyzed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 30px;">
+                        <h4 style="text-align: center; margin-bottom: 20px;">📈 Sentiment Distribution</h4>
+                        <div class="progress" style="height: 30px; border-radius: 15px; background: rgba(255,255,255,0.3);">
+                            <div class="progress-bar progress-bar-animated" 
+                                 style="width: {{ (positive / (positive + negative) * 100) }}%; 
+                                        background: linear-gradient(90deg, #4ade80, #22c55e); 
+                                        font-size: 1.1rem; 
+                                        font-weight: bold;">
+                                {{ "%.1f"|format(positive / (positive + negative) * 100) }}% Positive
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 30px; border-radius: 15px; margin-top: 15px; background: rgba(255,255,255,0.3);">
+                            <div class="progress-bar progress-bar-animated" 
+                                 style="width: {{ (negative / (positive + negative) * 100) }}%; 
+                                        background: linear-gradient(90deg, #f87171, #ef4444); 
+                                        font-size: 1.1rem; 
+                                        font-weight: bold;">
+                                {{ "%.1f"|format(negative / (positive + negative) * 100) }}% Negative
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.2); border-radius: 10px;">
+                        <p style="font-size: 1.2rem; margin: 0;">
+                            {% if positive > negative %}
+                                🎊 Great news! Your product has more positive reviews! Keep up the good work! 💪
+                            {% elif negative > positive %}
+                                💡 There's room for improvement. Focus on addressing customer concerns! 🔧
+                            {% else %}
+                                ⚖️ Reviews are balanced. Consider gathering more feedback! 📝
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        // Add loading animation on form submit
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-analyze');
+            btn.innerHTML = '⏳ Analyzing... Please wait!';
+            btn.disabled = true;
+        });
+
+        // File input change animation
+        document.getElementById('file').addEventListener('change', function(e) {
+            if(e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                const label = document.querySelector('label[for="file"]');
+                label.innerHTML = '✅ File Selected: ' + fileName;
+            }
+        });
+    </script>
+</body>
+</html>

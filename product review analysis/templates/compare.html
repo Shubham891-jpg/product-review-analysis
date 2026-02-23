@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compare Products 🆚</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            margin-top: 30px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .nav-pills {
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-pills .nav-link {
+            border-radius: 50px;
+            padding: 12px 30px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .input-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .form-control {
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            font-size: 1rem;
+        }
+
+        .btn-compare {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-compare:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 87, 108, 0.6);
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            color: white;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .product-card.winner {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.5);
+            transform: scale(1.02);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .winner-badge {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+
+        .vs-badge {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress {
+            height: 25px;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            margin-top: 15px;
+        }
+
+        .progress-bar {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .alert-custom {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #7f1d1d;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .emoji-large {
+            font-size: 4rem;
+            text-align: center;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-card">
+            <h1>🆚 Product Comparison</h1>
+            <p class="subtitle">Compare reviews from two products and see which one is better! 🏆</p>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">📊 Single Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/compare">🆚 Compare Products</a>
+                </li>
+            </ul>
+
+            {% if error %}
+            <div class="alert-custom">
+                <strong>⚠️ Error:</strong> {{ error }}
+            </div>
+            {% endif %}
+
+            <div class="input-section">
+                <form method="POST" action="{{ url_for('compare_products') }}" id="compareForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 1.1rem; font-weight: bold;">
+                                    🔗 Product 1 URL:
+                                </label>
+                                <input type="url" class="form-control" name="url1" 
+                                       placeholder="https://www.amazon.com/product1..." 
+                                       value="{{ url1 if url1 else '' }}" required>
+                                <small style="display: block; margin-top: 8px; opacity: 0.9;">
+                                    Amazon, Flipkart, or any product page
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="font-size: 1.1rem; font-weight: bold;">
+                                    🔗 Product 2 URL:
+                                </label>
+                                <input type="url" class="form-control" name="url2" 
+                                       placeholder="https://www.amazon.com/product2..." 
+                                       value="{{ url2 if url2 else '' }}" required>
+                                <small style="display: block; margin-top: 8px; opacity: 0.9;">
+                                    Amazon, Flipkart, or any product page
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-compare">
+                        🚀 Compare Now!
+                    </button>
+                </form>
+            </div>
+
+            {% if result1 and result2 %}
+            <div class="vs-badge">⚔️ VS ⚔️</div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="product-card {% if winner == 'product1' %}winner{% endif %}">
+                        {% if winner == 'product1' %}
+                        <div class="winner-badge">🏆 WINNER!</div>
+                        {% endif %}
+                        
+                        <h3 style="text-align: center; margin-bottom: 20px;">📦 Product 1</h3>
+                        
+                        {% if result1.sentiment == 'POSITIVE' %}
+                        <div class="emoji-large">😊 👍</div>
+                        {% elif result1.sentiment == 'NEGATIVE' %}
+                        <div class="emoji-large">😔 👎</div>
+                        {% else %}
+                        <div class="emoji-large">😐 ⚖️</div>
+                        {% endif %}
+
+                        <h4 style="text-align: center; margin-bottom: 20px;">
+                            {{ result1.sentiment }} Sentiment
+                        </h4>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">😊</div>
+                                <div class="stat-number">{{ result1.positive }}</div>
+                                <div class="stat-label">Positive</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">😔</div>
+                                <div class="stat-number">{{ result1.negative }}</div>
+                                <div class="stat-label">Negative</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">📊</div>
+                                <div class="stat-number">{{ result1.total }}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ result1.positive_percentage }}%; background: linear-gradient(90deg, #4ade80, #22c55e);">
+                                {{ result1.positive_percentage }}% 👍
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="product-card {% if winner == 'product2' %}winner{% endif %}">
+                        {% if winner == 'product2' %}
+                        <div class="winner-badge">🏆 WINNER!</div>
+                        {% endif %}
+                        
+                        <h3 style="text-align: center; margin-bottom: 20px;">📦 Product 2</h3>
+                        
+                        {% if result2.sentiment == 'POSITIVE' %}
+                        <div class="emoji-large">😊 👍</div>
+                        {% elif result2.sentiment == 'NEGATIVE' %}
+                        <div class="emoji-large">😔 👎</div>
+                        {% else %}
+                        <div class="emoji-large">😐 ⚖️</div>
+                        {% endif %}
+
+                        <h4 style="text-align: center; margin-bottom: 20px;">
+                            {{ result2.sentiment }} Sentiment
+                        </h4>
+
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">😊</div>
+                                <div class="stat-number">{{ result2.positive }}</div>
+                                <div class="stat-label">Positive</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">😔</div>
+                                <div class="stat-number">{{ result2.negative }}</div>
+                                <div class="stat-label">Negative</div>
+                            </div>
+                            <div class="stat-box">
+                                <div style="font-size: 2rem;">📊</div>
+                                <div class="stat-number">{{ result2.total }}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                        </div>
+
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ result2.positive_percentage }}%; background: linear-gradient(90deg, #4ade80, #22c55e);">
+                                {{ result2.positive_percentage }}% 👍
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px; padding: 25px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 15px; color: white;">
+                <h3 style="font-size: 2rem; margin-bottom: 15px;">{{ winner_text }}</h3>
+                <p style="font-size: 1.2rem; margin: 0;">
+                    {% if winner == 'product1' %}
+                    🎊 Product 1 has {{ result1.positive_percentage }}% positive reviews vs Product 2's {{ result2.positive_percentage }}%
+                    {% elif winner == 'product2' %}
+                    🎊 Product 2 has {{ result2.positive_percentage }}% positive reviews vs Product 1's {{ result1.positive_percentage }}%
+                    {% else %}
+                    ⚖️ Both products have {{ result1.positive_percentage }}% positive reviews
+                    {% endif %}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <script>
+        document.getElementById('compareForm').addEventListener('submit', function(e) {
+            const btn = document.querySelector('.btn-compare');
+            btn.innerHTML = '⏳ Scraping & Analyzing... This may take 10-30 seconds!';
+            btn.disabled = true;
+        });
+    </script>
+</body>
+</html>
